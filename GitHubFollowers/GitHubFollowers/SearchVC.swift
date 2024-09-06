@@ -9,6 +9,7 @@ import UIKit
 
 class SearchVC: UIViewController {
     
+    // MARK: - Properties
     let logoImageView = UIImageView()
     let usernameTextField = GFTextField()
     let callToActionButton = GFButton(backgroundColor: .systemGreen, title: "Get Followers")
@@ -26,8 +27,7 @@ class SearchVC: UIViewController {
         confirureCallToActionButton()
         createDismissKeyboardTapGesture()
     }
-    
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.isNavigationBarHidden = true
@@ -43,7 +43,7 @@ class SearchVC: UIViewController {
     @objc func pushFollowersVC() {
         
         guard isUsernameEntered else {
-            print("No Username")
+            presentGFAlertOnMainThred(title: "Empty Username", message: "Please enter a username. We need to know who to look for 😉", buttonTitle: "Ok")
             return
         }
         
@@ -57,6 +57,8 @@ class SearchVC: UIViewController {
     func configureLogoImageView() {
         logoImageView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(logoImageView)
+        
+        // FIXME: - create logo for dark appearance
         logoImageView.image = UIImage(named: "gh-logo")
         
         NSLayoutConstraint.activate([
