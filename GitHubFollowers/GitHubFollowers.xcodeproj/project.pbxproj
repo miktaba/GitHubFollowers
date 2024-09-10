@@ -16,6 +16,8 @@
 		849B4E542C8C7DC100938B1F /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849B4E532C8C7DC100938B1F /* User.swift */; };
 		849B4E572C8CA3C900938B1F /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849B4E562C8CA3C900938B1F /* NetworkManager.swift */; };
 		849B4E5A2C8DAC1300938B1F /* ErrorMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849B4E592C8DAC1300938B1F /* ErrorMessage.swift */; };
+		849B4E5D2C8EEF0600938B1F /* FollowerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849B4E5C2C8EEF0600938B1F /* FollowerCell.swift */; };
+		849B4E5F2C8EF86700938B1F /* GFAvatarImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849B4E5E2C8EF86600938B1F /* GFAvatarImageView.swift */; };
 		84C58B5D2C8329BD0047B84E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C58B5C2C8329BD0047B84E /* AppDelegate.swift */; };
 		84C58B5F2C8329BD0047B84E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C58B5E2C8329BD0047B84E /* SceneDelegate.swift */; };
 		84C58B662C8329BE0047B84E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84C58B652C8329BE0047B84E /* Assets.xcassets */; };
@@ -37,6 +39,8 @@
 		849B4E532C8C7DC100938B1F /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		849B4E562C8CA3C900938B1F /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		849B4E592C8DAC1300938B1F /* ErrorMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorMessage.swift; sourceTree = "<group>"; };
+		849B4E5C2C8EEF0600938B1F /* FollowerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowerCell.swift; sourceTree = "<group>"; };
+		849B4E5E2C8EF86600938B1F /* GFAvatarImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GFAvatarImageView.swift; sourceTree = "<group>"; };
 		84C58B592C8329BD0047B84E /* GitHubFollowers.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GitHubFollowers.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84C58B5C2C8329BD0047B84E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		84C58B5E2C8329BD0047B84E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -74,12 +78,14 @@
 		849B4E4B2C8C60D400938B1F /* Custom Views */ = {
 			isa = PBXGroup;
 			children = (
+				849B4E5B2C8EEECF00938B1F /* Cells */,
 				849B4E462C8AF34B00938B1F /* GFAlertVC.swift */,
 				84C58B742C85A9AA0047B84E /* GFButton.swift */,
 				84C58B762C85B01C0047B84E /* GFTextField.swift */,
 				849B4E422C8AF05D00938B1F /* GFTitleLable.swift */,
 				849B4E442C8AF24500938B1F /* GFBodyLable.swift */,
 				849B4E4E2C8C64F300938B1F /* GFAlertContainerView.swift */,
+				849B4E5E2C8EF86600938B1F /* GFAvatarImageView.swift */,
 			);
 			path = "Custom Views";
 			sourceTree = "<group>";
@@ -127,6 +133,14 @@
 				849B4E592C8DAC1300938B1F /* ErrorMessage.swift */,
 			);
 			path = Utilities;
+			sourceTree = "<group>";
+		};
+		849B4E5B2C8EEECF00938B1F /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				849B4E5C2C8EEF0600938B1F /* FollowerCell.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		84C58B502C8329BD0047B84E = {
@@ -236,6 +250,8 @@
 				849B4E492C8B021100938B1F /* UIViiewController + Ext.swift in Sources */,
 				84C58B752C85A9AA0047B84E /* GFButton.swift in Sources */,
 				849B4E542C8C7DC100938B1F /* User.swift in Sources */,
+				849B4E5D2C8EEF0600938B1F /* FollowerCell.swift in Sources */,
+				849B4E5F2C8EF86700938B1F /* GFAvatarImageView.swift in Sources */,
 				849B4E472C8AF34B00938B1F /* GFAlertVC.swift in Sources */,
 				849B4E522C8C78AE00938B1F /* Follower.swift in Sources */,
 				84C58B712C83578C0047B84E /* SearchVC.swift in Sources */,
