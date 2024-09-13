@@ -38,7 +38,7 @@ class GFTextField: UITextField {
         placeholder = "Enter a username"
         
         // TODO: - Don't forget to delete
-        text = "Alamofire"
+        text = "Apple"
         
     }
 }

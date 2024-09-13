@@ -14,11 +14,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        /*
+        
          
-        This code fixes the display of NavigationBar and TabBar.
-        Before that, the scene was flooded with a monotone. 
-        Only needed if you don't like a monotone scene.
+//        This code fixes the display of NavigationBar and TabBar.
+//        Before that, the scene was flooded with a monotone. 
+//        Only needed if you don't like a monotone scene.
          
         if #available(iOS 15, *) {
                   let appearance = UINavigationBarAppearance()
@@ -31,7 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                   UITabBar.appearance().standardAppearance = tabAppearance
                   UITabBar.appearance().scrollEdgeAppearance = tabAppearance
               }
-         */
+         
         
         return true
     }

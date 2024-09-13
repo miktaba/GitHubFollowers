@@ -1,8 +1,8 @@
 //
-//  ErrorMessage.swift
+//  GFError.swift
 //  GitHubFollowers
 //
-//  Created by Mikhail Tabakaev on 9/8/24.
+//  Created by Mikhail Tabakaev on 9/13/24.
 //
 
 import Foundation
