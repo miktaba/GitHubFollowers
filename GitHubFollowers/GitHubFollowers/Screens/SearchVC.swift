@@ -13,13 +13,14 @@ class SearchVC: UIViewController {
     let logoImageView = UIImageView()
     let usernameTextField = GFTextField()
     let callToActionButton = GFButton(backgroundColor: .systemGreen, title: "Get Followers")
+    var logoImageViewTopConstraint: NSLayoutConstraint!
     
     var isUsernameEntered: Bool {
         return !usernameTextField.text!.isEmpty
     }
 
     
-    // MARK: - Life Cycle
+    // MARK: - lifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
@@ -27,6 +28,8 @@ class SearchVC: UIViewController {
         configureTextField()
         confirureCallToActionButton()
         createDismissKeyboardTapGesture()
+        
+        configureKeyboardHiding()
     }
 
     
@@ -36,15 +39,22 @@ class SearchVC: UIViewController {
     }
     
     
-    // MARK: - Dismiss Keyboard
+    // MARK: - dismissKeyboard
     func createDismissKeyboardTapGesture() {
         let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing))
         view.addGestureRecognizer(tap)
     }
     
+    // MARK: - keyboardHiding
+    private func configureKeyboardHiding() {
+         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+    }
     
-    // MARK: - Push Followers
+    
+    // MARK: - pushFollowersVC
     @objc func pushFollowersVC() {
+        view.endEditing(true)
         
         guard isUsernameEntered else {
             presentGFAlertOnMainThred(title: "Empty Username", message: "Please enter a username. We need to know who to look for 😉", buttonTitle: "Ok")
@@ -58,20 +68,15 @@ class SearchVC: UIViewController {
     }
     
     
-    // MARK: - Configure Logo
+    // MARK: - configureImageLogo
     func configureLogoImageView() {
-        logoImageView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(logoImageView)
-        
-        // FIXME: - create logo for dark appearance
+        logoImageView.translatesAutoresizingMaskIntoConstraints = false
         logoImageView.image = UIImage(named: "gh-logo")
         
         NSLayoutConstraint.activate(
             [
-                logoImageView.topAnchor.constraint(
-                    equalTo: view.safeAreaLayoutGuide.topAnchor,
-                    constant: 40
-                ),
+                logoImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 80),
                 logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
                 logoImageView.heightAnchor.constraint(equalToConstant: 300),
                 logoImageView.widthAnchor.constraint(equalToConstant: 300)
@@ -80,7 +85,7 @@ class SearchVC: UIViewController {
     }
     
     
-    // MARK: - Configure TextField
+    // MARK: - configureTextField
     func configureTextField() {
         view.addSubview(usernameTextField)
         usernameTextField.delegate = self
@@ -105,7 +110,7 @@ class SearchVC: UIViewController {
     }
     
     
-    // MARK: - Configure Button
+    // MARK: - confirureCallToActionButton
     func confirureCallToActionButton() {
         view.addSubview(callToActionButton)
         callToActionButton.addTarget(self, action: #selector(pushFollowersVC), for: .touchUpInside)
@@ -139,3 +144,56 @@ extension SearchVC: UITextFieldDelegate {
         return true
     }
 }
+
+
+extension UIViewController {
+    @objc func keyboardWillShow(sender: NSNotification) {
+        guard let userInfo = sender.userInfo,
+              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
+              let currentTextField = UIResponder.currentFirst() as? UITextField else { return }
+
+        let keyboardFrameInView = view.convert(keyboardFrame.cgRectValue, from: view.window)
+        let keyboardTopY = keyboardFrameInView.origin.y
+
+        let convertedTextFieldFrame = view.convert(currentTextField.frame, from: currentTextField.superview)
+        let textFieldBottomY = convertedTextFieldFrame.origin.y + convertedTextFieldFrame.size.height
+
+        if textFieldBottomY > keyboardTopY {
+               let offset = textFieldBottomY - keyboardTopY + 20
+               view.frame.origin.y = -offset
+            
+            if let searchVC = self as? SearchVC {
+                searchVC.callToActionButton.isHidden = true
+            }
+        }
+    }
+}
+
+extension UIViewController {
+    @objc func keyboardWillHide(sender: NSNotification) {
+        view.frame.origin.y = 0
+        
+        if let searchVC = self as? SearchVC {
+            searchVC.callToActionButton.isHidden = false
+        }
+    }
+}
+
+extension UIResponder {
+
+    private struct Static {
+        static weak var responder: UIResponder?
+    }
+
+    static func currentFirst() -> UIResponder? {
+        Static.responder = nil
+        UIApplication.shared.sendAction(#selector(UIResponder._trap), to: nil, from: nil, for: nil)
+        return Static.responder
+    }
+
+    @objc private func _trap() {
+        Static.responder = self
+    }
+}
+
+
