@@ -28,7 +28,6 @@ class SearchVC: UIViewController {
         configureTextField()
         confirureCallToActionButton()
         createDismissKeyboardTapGesture()
-        
         configureKeyboardHiding()
     }
 
@@ -36,20 +35,55 @@ class SearchVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: true)
+        removeBlurEffect()
     }
     
     
-    // MARK: - dismissKeyboard
+    // MARK: - createDismissKeyboard
     func createDismissKeyboardTapGesture() {
-        let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing))
+        let tap = UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing))
         view.addGestureRecognizer(tap)
     }
+    
     
     // MARK: - keyboardHiding
     private func configureKeyboardHiding() {
          NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
     }
+    
+    
+    @objc func keyboardWillShow(sender: NSNotification) {
+        guard let userInfo = sender.userInfo,
+              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
+              let currentTextField = UIResponder.currentFirst() as? UITextField else { return }
+
+        let keyboardFrameInView = view.convert(keyboardFrame.cgRectValue, from: view.window)
+        let keyboardTopY = keyboardFrameInView.origin.y
+
+        let convertedTextFieldFrame = view.convert(currentTextField.frame, from: currentTextField.superview)
+        let textFieldBottomY = convertedTextFieldFrame.origin.y + convertedTextFieldFrame.size.height
+
+        if textFieldBottomY > keyboardTopY {
+               let offset = textFieldBottomY - keyboardTopY + 20
+               view.frame.origin.y = -offset
+            
+        let keyboardHeight = CGFloat(keyboardFrame.cgRectValue.height)
+        UIView.animate(withDuration: 0.3) {
+            self.callToActionButton.transform = CGAffineTransform(translationX: 0, y: keyboardHeight - 50)
+            }
+        }
+    }
+    
+    
+    @objc func keyboardWillHide(sender: NSNotification) {
+        view.frame.origin.y = 0
+        
+        UIView.animate(withDuration: 0.3) {
+                self.callToActionButton.transform = .identity
+        }
+    }
+    
     
     
     // MARK: - pushFollowersVC
@@ -61,18 +95,23 @@ class SearchVC: UIViewController {
             return
         }
         
-        let followerListVC = FollowerListVC()
-        followerListVC.username = usernameTextField.text
-        followerListVC.title = usernameTextField.text
+        let followerListVC = FollowerListVC(username: usernameTextField.text ?? "")
+        
+        addBlurEffect()
+        
         navigationController?.pushViewController(followerListVC, animated: true)
+
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+//        self.removeBlurEffect()
+//        }
     }
     
-    
+   
     // MARK: - configureImageLogo
     func configureLogoImageView() {
         view.addSubview(logoImageView)
         logoImageView.translatesAutoresizingMaskIntoConstraints = false
-        logoImageView.image = UIImage(named: "gh-logo")
+        logoImageView.image = Images.ghLogo
         
         NSLayoutConstraint.activate(
             [
@@ -147,37 +186,34 @@ extension SearchVC: UITextFieldDelegate {
 
 
 extension UIViewController {
-    @objc func keyboardWillShow(sender: NSNotification) {
-        guard let userInfo = sender.userInfo,
-              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
-              let currentTextField = UIResponder.currentFirst() as? UITextField else { return }
-
-        let keyboardFrameInView = view.convert(keyboardFrame.cgRectValue, from: view.window)
-        let keyboardTopY = keyboardFrameInView.origin.y
-
-        let convertedTextFieldFrame = view.convert(currentTextField.frame, from: currentTextField.superview)
-        let textFieldBottomY = convertedTextFieldFrame.origin.y + convertedTextFieldFrame.size.height
-
-        if textFieldBottomY > keyboardTopY {
-               let offset = textFieldBottomY - keyboardTopY + 20
-               view.frame.origin.y = -offset
-            
-            if let searchVC = self as? SearchVC {
-                searchVC.callToActionButton.isHidden = true
-            }
-        }
-    }
-}
-
-extension UIViewController {
-    @objc func keyboardWillHide(sender: NSNotification) {
-        view.frame.origin.y = 0
+    func addBlurEffect() {
+        guard self.view.viewWithTag(1001) == nil else { return }
         
-        if let searchVC = self as? SearchVC {
-            searchVC.callToActionButton.isHidden = false
+        let blurEffect = UIBlurEffect(style: .light)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = self.view.bounds
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        blurEffectView.tag = 1001
+        
+        let dimmingView = UIView(frame: self.view.bounds)
+        dimmingView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        dimmingView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        dimmingView.tag = 1002
+        
+        self.view.addSubview(dimmingView)
+        self.view.addSubview(blurEffectView)
+    }
+    
+    func removeBlurEffect() {
+        if let blurEffectView = self.view.viewWithTag(1001) {
+            blurEffectView.removeFromSuperview()
+        }
+        if let dimmingView = self.view.viewWithTag(1002) {
+            dimmingView.removeFromSuperview()
         }
     }
 }
+
 
 extension UIResponder {
 
@@ -195,5 +231,3 @@ extension UIResponder {
         Static.responder = self
     }
 }
-
-
