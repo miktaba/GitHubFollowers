@@ -38,6 +38,9 @@ class FollowerListVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: true)
+        
+        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonTapped))
+        navigationItem.rightBarButtonItem = addButton
     }
     
     func configureViewController() {
@@ -106,6 +109,33 @@ class FollowerListVC: UIViewController {
         snapshot.appendSections([.main])
         snapshot.appendItems(followers)
         self.dataSorce.apply(snapshot, animatingDifferences: true)
+    }
+    
+    
+    @objc func addButtonTapped() {
+        showLoadingView()
+        NetworkManager.shared.getUsername(for: username) { [weak self] result in
+            guard let self = self else { return }
+                self.dismissLoadingView()
+                switch result {
+                case .success(let user):
+                    let favorite = Follower(login: user.login, avatarUrl: user.avatarUrl)
+                    
+                    PersistenceManager.updateWith(favorite: favorite, actionType: .add) { [weak self] error in
+                        guard let self = self else { return }
+                        
+                        guard let error = error else {
+                            self.presentGFAlertOnMainThred(title: "Success!", message: "You have successfully favorited this user 🤌🏼", buttonTitle: "Ok")
+                            return
+                        }
+                        
+                        self.presentGFAlertOnMainThred(title: "Something went wrong", message: error.rawValue, buttonTitle: "Ok")
+                    }
+                    
+                case .failure(let error):
+                    self.presentGFAlertOnMainThred(title: "Somthing went wrong.", message: error.rawValue, buttonTitle: "Ok")
+            }
+        }
     }
 }
 
