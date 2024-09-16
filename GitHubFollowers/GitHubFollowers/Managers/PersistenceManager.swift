@@ -13,7 +13,6 @@ enum PersistenceActionType {
 
 enum PersistenceManager {
 
-    
     static private let defalts = UserDefaults.standard
     
     enum Keys {
@@ -28,22 +27,21 @@ enum PersistenceManager {
     ) {
         retrieveFavorites { result in
             switch result {
-            case .success(let favorites):
-                var retrivedFavorites = favorites
+            case .success(var favorites):
                 
                 switch actionType {
                 case .add:
-                    guard !retrivedFavorites.contains(favorite) else {
+                    guard !favorites.contains(favorite) else {
                         completed(.alreadyInFavorites)
                         return
                     }
-                    retrivedFavorites.append(favorite)
+                    favorites.append(favorite)
                 
                 case .remove:
-                    retrivedFavorites.removeAll { $0.login == favorite.login }
+                    favorites.removeAll { $0.login == favorite.login }
                 }
                 
-                completed(save(favorites: retrivedFavorites))
+                completed(save(favorites: favorites))
                 
             case .failure(let error):
                 completed(error)

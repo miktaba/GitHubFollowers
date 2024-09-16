@@ -8,7 +8,6 @@
 import UIKit
 import SafariServices
 
-fileprivate var containerView: UIView!
 
 extension UIViewController {
     
@@ -37,44 +36,31 @@ extension UIViewController {
     }
     
     
-    func showLoadingView() {
-        containerView = UIView(frame: view.bounds)
-        view.addSubview(containerView)
+    func addBlurEffect() {
+        guard self.view.viewWithTag(1001) == nil else { return }
         
-        containerView.backgroundColor = . systemBackground
-        containerView.alpha = 0
+        let blurEffect = UIBlurEffect(style: .light)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = self.view.bounds
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        blurEffectView.tag = 1001
         
-        UIView.animate(withDuration: 0.28) {
-            containerView.alpha = 0.8
-        }
+        let dimmingView = UIView(frame: self.view.bounds)
+        dimmingView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        dimmingView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        dimmingView.tag = 1002
         
-        let activityIndicator = UIActivityIndicatorView(style: .large)
-        containerView.addSubview(activityIndicator)
-        
-        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor)
-        ])
-        
-        activityIndicator.startAnimating()
+        self.view.addSubview(dimmingView)
+        self.view.addSubview(blurEffectView)
     }
     
-    
-    func dismissLoadingView() {
-        DispatchQueue.main.async {
-            containerView.removeFromSuperview()
-            containerView = nil
+    func removeBlurEffect() {
+        if let blurEffectView = self.view.viewWithTag(1001) {
+            blurEffectView.removeFromSuperview()
         }
-    }
-    
-    
-    func showEmptyStateView(with message: String, in view: UIView) {
-        let emptyStateView = GFEmptyStateView(message: message)
-        emptyStateView.frame = view.bounds
-        view.addSubview(emptyStateView)
-        
+        if let dimmingView = self.view.viewWithTag(1002) {
+            dimmingView.removeFromSuperview()
+        }
     }
 }
 

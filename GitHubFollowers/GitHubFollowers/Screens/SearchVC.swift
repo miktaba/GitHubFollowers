@@ -24,6 +24,7 @@ class SearchVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
+        view.addSubviews(logoImageView, usernameTextField, callToActionButton)
         configureLogoImageView()
         configureTextField()
         confirureCallToActionButton()
@@ -100,16 +101,11 @@ class SearchVC: UIViewController {
         addBlurEffect()
         
         navigationController?.pushViewController(followerListVC, animated: true)
-
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-//        self.removeBlurEffect()
-//        }
     }
     
    
     // MARK: - configureImageLogo
     func configureLogoImageView() {
-        view.addSubview(logoImageView)
         logoImageView.translatesAutoresizingMaskIntoConstraints = false
         logoImageView.image = Images.ghLogo
         
@@ -126,7 +122,6 @@ class SearchVC: UIViewController {
     
     // MARK: - configureTextField
     func configureTextField() {
-        view.addSubview(usernameTextField)
         usernameTextField.delegate = self
         
         NSLayoutConstraint.activate(
@@ -151,7 +146,6 @@ class SearchVC: UIViewController {
     
     // MARK: - confirureCallToActionButton
     func confirureCallToActionButton() {
-        view.addSubview(callToActionButton)
         callToActionButton.addTarget(self, action: #selector(pushFollowersVC), for: .touchUpInside)
         
         NSLayoutConstraint.activate(
@@ -185,36 +179,6 @@ extension SearchVC: UITextFieldDelegate {
 }
 
 
-extension UIViewController {
-    func addBlurEffect() {
-        guard self.view.viewWithTag(1001) == nil else { return }
-        
-        let blurEffect = UIBlurEffect(style: .light)
-        let blurEffectView = UIVisualEffectView(effect: blurEffect)
-        blurEffectView.frame = self.view.bounds
-        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        blurEffectView.tag = 1001
-        
-        let dimmingView = UIView(frame: self.view.bounds)
-        dimmingView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-        dimmingView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        dimmingView.tag = 1002
-        
-        self.view.addSubview(dimmingView)
-        self.view.addSubview(blurEffectView)
-    }
-    
-    func removeBlurEffect() {
-        if let blurEffectView = self.view.viewWithTag(1001) {
-            blurEffectView.removeFromSuperview()
-        }
-        if let dimmingView = self.view.viewWithTag(1002) {
-            dimmingView.removeFromSuperview()
-        }
-    }
-}
-
-
 extension UIResponder {
 
     private struct Static {
@@ -223,11 +187,11 @@ extension UIResponder {
 
     static func currentFirst() -> UIResponder? {
         Static.responder = nil
-        UIApplication.shared.sendAction(#selector(UIResponder._trap), to: nil, from: nil, for: nil)
+        UIApplication.shared.sendAction(#selector(UIResponder.trap), to: nil, from: nil, for: nil)
         return Static.responder
     }
 
-    @objc private func _trap() {
+    @objc private func trap() {
         Static.responder = self
     }
 }

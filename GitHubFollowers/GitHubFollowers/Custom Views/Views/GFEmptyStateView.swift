@@ -11,7 +11,7 @@ class GFEmptyStateView: UIView {
     
     let messageLable = GFTitleLable(textAligment: .center, fontSize: 28)
     let logoImageView = UIImageView()
-    
+    let screenWidth = UIScreen.main.bounds.width
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -22,35 +22,67 @@ class GFEmptyStateView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
-    init(message: String) {
-        super.init(frame: .zero)
+    convenience init(message: String) {
+        self.init(frame: .zero)
         messageLable.text = message
-        configure()
+    }
+    
+    
+    private func calculateImageSize(for screenWidth: CGFloat) -> (width: CGFloat, height: CGFloat) {
+        let isSmallScreen = screenWidth <= 380
+     
+        let imageWidthMultiplier: CGFloat = isSmallScreen ? 1.0 : 1.2
+        let imageWidth: CGFloat = screenWidth * imageWidthMultiplier
+        let imageHeight: CGFloat = imageWidth
+        
+        return (width: imageWidth, height: imageHeight)
     }
     
     
     private func configure() {
-        addSubview(messageLable)
-        addSubview(logoImageView)
-        
+        addSubviews(messageLable, logoImageView)
+        configureMessageLabel()
+        configureLogoImgeView()
+    }
+    
+    
+    private func configureMessageLabel() {
         messageLable.numberOfLines = 3
         messageLable.textColor = .secondaryLabel
         
-        logoImageView.image = UIImage(named: "GHLogoEmptyState")
+        let isSmallScreen = screenWidth <= 380
+        
+        let messageLableCenterYConstant: CGFloat = isSmallScreen ? -150 : -200
+        let messageCenterYConstraint = messageLable.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: messageLableCenterYConstant)
+        messageCenterYConstraint.isActive = true
+        
+        NSLayoutConstraint.activate([
+            messageLable.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 40),
+            messageLable.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -40),
+            messageLable.heightAnchor.constraint(equalToConstant: 200)
+            ])
+    }
+
+    
+    private func configureLogoImgeView() {
+        logoImageView.image = Images.emptyStateLogo
         logoImageView.alpha = 0.3
         logoImageView.translatesAutoresizingMaskIntoConstraints = false
         
+        let imageSize = calculateImageSize(for: screenWidth)
+        
+        let isSmallScreen = screenWidth <= 380
+        let logoTrailingConstant: CGFloat = isSmallScreen ? 120 : 160
+        let logoImageTrailingConstraint = logoImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: logoTrailingConstant)
+        logoImageTrailingConstraint.isActive = true
+        
+        let logoBottomConstant: CGFloat = isSmallScreen ? 0 : -20
+        let logoImageViewBottomConstraint = logoImageView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: logoBottomConstant)
+        logoImageViewBottomConstraint.isActive = true
+        
         NSLayoutConstraint.activate([
-            messageLable.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: -150),
-            messageLable.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 40),
-            messageLable.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -40),
-            messageLable.heightAnchor.constraint(equalToConstant: 200),
-            
-            logoImageView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 1.3),
-            logoImageView.heightAnchor.constraint(equalTo: self.widthAnchor, multiplier: 1.3),
-            logoImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 170),
-            logoImageView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 40)
+            logoImageView.widthAnchor.constraint(equalToConstant: imageSize.width),
+            logoImageView.heightAnchor.constraint(equalToConstant: imageSize.height)
         ])
     }
 }
