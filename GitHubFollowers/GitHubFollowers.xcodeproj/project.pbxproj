@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		840CB3A92C9B276C009FA315 /* FollowerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840CB3A82C9B276C009FA315 /* FollowerView.swift */; };
 		849B4E432C8AF05D00938B1F /* GFTitleLable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849B4E422C8AF05D00938B1F /* GFTitleLable.swift */; };
 		849B4E452C8AF24500938B1F /* GFBodyLable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849B4E442C8AF24500938B1F /* GFBodyLable.swift */; };
 		849B4E472C8AF34B00938B1F /* GFAlertVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849B4E462C8AF34B00938B1F /* GFAlertVC.swift */; };
@@ -47,6 +48,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		840CB3A82C9B276C009FA315 /* FollowerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowerView.swift; sourceTree = "<group>"; };
 		849B4E422C8AF05D00938B1F /* GFTitleLable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GFTitleLable.swift; sourceTree = "<group>"; };
 		849B4E442C8AF24500938B1F /* GFBodyLable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GFBodyLable.swift; sourceTree = "<group>"; };
 		849B4E462C8AF34B00938B1F /* GFAlertVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GFAlertVC.swift; sourceTree = "<group>"; };
@@ -99,6 +101,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		840CB3A72C9B2738009FA315 /* FollowerCell */ = {
+			isa = PBXGroup;
+			children = (
+				849B4E5C2C8EEF0600938B1F /* FollowerCell.swift */,
+				840CB3A82C9B276C009FA315 /* FollowerView.swift */,
+			);
+			path = FollowerCell;
+			sourceTree = "<group>";
+		};
 		849B4E4A2C8C607D00938B1F /* Screens */ = {
 			isa = PBXGroup;
 			children = (
@@ -179,7 +190,7 @@
 		849B4E5B2C8EEECF00938B1F /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				849B4E5C2C8EEF0600938B1F /* FollowerCell.swift */,
+				840CB3A72C9B2738009FA315 /* FollowerCell */,
 				849B4E832C973CA900938B1F /* FavoriteCell.swift */,
 			);
 			path = Cells;
@@ -388,6 +399,7 @@
 				849B4E7E2C9490C700938B1F /* Date+Ext.swift in Sources */,
 				849B4E572C8CA3C900938B1F /* NetworkManager.swift in Sources */,
 				84C58B5D2C8329BD0047B84E /* AppDelegate.swift in Sources */,
+				840CB3A92C9B276C009FA315 /* FollowerView.swift in Sources */,
 				849B4E752C9476A000938B1F /* GFItemInfoView.swift in Sources */,
 				84C58B5F2C8329BD0047B84E /* SceneDelegate.swift in Sources */,
 				849B4E8D2C98805100938B1F /* UITableView+Ext.swift in Sources */,

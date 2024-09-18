@@ -99,38 +99,9 @@ class FollowerListVC: GFDataLoadingVC {
                 isLoadingMoreFollowers = false
                 dismissLoadingView()
             }
-            
-            // without a specific error
-//            guard let followers = try? await NetworkManager.shared.getFollowers(for: username, page: page) else {
-//                presentDefaultAlert()
-//                dismissLoadingView()
-//                return
-//            }
-//            
-//            updateUI(with: followers)
-//            dismissLoadingView()
-        
-        // old way
-//        NetworkManager.shared.getFollowers(for: username, page: page) { [weak self] result in
-//            guard let self = self else { return }
-//            self.dismissLoadingView()
-//            
-//            switch result {
-//            case .success(let followers):
-//                self.updateUI(with: followers)
-//                
-//            case .failure(let error):
-//                self.presentGFAlertOnMainThred(
-//                    title: "Bad Stuff Happend",
-//                    message: error.rawValue,
-//                    buttonTitle: "Ok"
-//                )
-//            }
-//            
-//            isLoadingMoreFollowers = false
-//        }
     }
 }
+    
     
     func updateUI(with followers: [Follower]) {
         if followers.count < 100 { self.hasMoreFollowers = false }
@@ -194,9 +165,9 @@ class FollowerListVC: GFDataLoadingVC {
         let favorite = Follower(login: user.login, avatarUrl: user.avatarUrl)
         
         PersistenceManager.updateWith(favorite: favorite, actionType: .add) { [weak self] error in
-            guard let self = self else { return }
+            guard let self else { return }
             
-            guard let error = error else {
+            guard let error else {
                 DispatchQueue.main.async {
                     self.presentGFAlert(
                         title: "Success!",

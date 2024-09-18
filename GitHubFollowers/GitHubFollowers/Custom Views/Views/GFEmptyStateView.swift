@@ -76,11 +76,11 @@ class GFEmptyStateView: UIView {
         let isSmallScreen = screenWidth <= 380
         
         let logoTrailingConstant: CGFloat = isSmallScreen ? 120 : 160
-        let logoBottomConstant: CGFloat = isSmallScreen ? 0 : -20
+        let logoBottomConstant: CGFloat = isSmallScreen ? -5 : -10
         
         NSLayoutConstraint.activate([
             logoImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: logoTrailingConstant),
-            logoImageView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: logoBottomConstant),
+            logoImageView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: logoBottomConstant),
             logoImageView.widthAnchor.constraint(equalToConstant: imageSize.width),
             logoImageView.heightAnchor.constraint(equalToConstant: imageSize.height)
         ])

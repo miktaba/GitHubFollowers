@@ -19,22 +19,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        This code fixes the display of NavigationBar and TabBar.
 //        Before that, the scene was flooded with a monotone. 
 //        Only needed if you don't like a monotone scene.
-         
-        if #available(iOS 15, *) {
-                  let appearance = UINavigationBarAppearance()
-                  appearance.configureWithDefaultBackground()
-                  UINavigationBar.appearance().standardAppearance = appearance
-                  UINavigationBar.appearance().scrollEdgeAppearance = appearance
-                  
-                  let tabAppearance = UITabBarAppearance()
-                  tabAppearance.configureWithDefaultBackground()
-                  UITabBar.appearance().standardAppearance = tabAppearance
-                  UITabBar.appearance().scrollEdgeAppearance = tabAppearance
-              }
-         
-        
-        return true
-    }
+//         
+//        if #available(iOS 15, *) {
+//                  let appearance = UINavigationBarAppearance()
+//                  appearance.configureWithDefaultBackground()
+//                  UINavigationBar.appearance().standardAppearance = appearance
+//                  UINavigationBar.appearance().scrollEdgeAppearance = appearance
+//                  
+//                  let tabAppearance = UITabBarAppearance()
+//                  tabAppearance.configureWithDefaultBackground()
+//                  UITabBar.appearance().standardAppearance = tabAppearance
+//                  UITabBar.appearance().scrollEdgeAppearance = tabAppearance
+//              }
+//         
+//        
+        return true}
 
     // MARK: UISceneSession Lifecycle
 
