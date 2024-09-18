@@ -18,45 +18,20 @@ class GFUserInfoHeaderVC: UIViewController {
     
     var user: User!
     
+    
     init(user: User) {
         super.init(nibName: nil, bundle: nil)
         self.user = user
     }
     
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        addSubviews()
-        layoutUI()
-        configureUIElements()
-    }
-
-    
-    func configureUIElements() {
-        downloadAvatarImage()
-        usernameLable.text = user.login
-        nameLable.text = user.name ?? ""
-        locationLable.text = user.location ?? "No Location"
-        bioLabel.text = user.bio ?? ""
-        bioLabel.numberOfLines = 3
-        
-        locationImageView.image = SFSymbols.location
-        locationImageView.tintColor = .secondaryLabel
-    }
-    
-    
-    func downloadAvatarImage() {
-        NetworkManager.shared.downladImage(from: user.avatarUrl) { [weak self] image in
-            guard let self = self else { return }
-            DispatchQueue.main.async { self.avatarImageView.image = image }
-        }
-    }
-    
-    
-    func addSubviews() {
         view.addSubviews(
             avatarImageView,
             usernameLable,
@@ -65,6 +40,21 @@ class GFUserInfoHeaderVC: UIViewController {
             locationLable,
             bioLabel
         )
+        layoutUI()
+        configureUIElements()
+    }
+    
+    
+    func configureUIElements() {
+        avatarImageView.downloadImage(fromURL: user.avatarUrl)
+        usernameLable.text = user.login
+        nameLable.text = user.name ?? ""
+        locationLable.text = user.location ?? "No Location"
+        bioLabel.text = user.bio ?? ""
+        bioLabel.numberOfLines = 3
+        
+        locationImageView.image = SFSymbols.location
+        locationImageView.tintColor = .secondaryLabel
     }
     
     

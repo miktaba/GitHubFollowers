@@ -21,6 +21,7 @@ class GFFollowerItemVC: GFItemInfoVC {
         self.delegate = delegate
     }
     
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -31,10 +32,11 @@ class GFFollowerItemVC: GFItemInfoVC {
         configureItems()
     }
     
+    
     private func configureItems() {
         itemInfoViewOne.set(itemInfoType: .followers, withCount: user.followers)
         itemInfoViewTwo.set(itemInfoType: .following, withCount: user.following)
-        actionButton.set(backgoundColor: .systemGreen, title: "Get Followers")
+        actionButton.set(color: .systemGreen, title: "Get Followers", systemImageName: "person.3")
     }
     
     

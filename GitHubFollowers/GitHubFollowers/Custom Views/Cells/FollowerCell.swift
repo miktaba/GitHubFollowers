@@ -8,6 +8,7 @@
 import UIKit
 
 class FollowerCell: UICollectionViewCell {
+    
     static let reuseID = "FollowerCell"
     let avatarImageView = GFAvatarImageView(frame: .zero)
     let usernameLabel = GFTitleLable(textAligment: .center, fontSize: 14)
@@ -25,21 +26,16 @@ class FollowerCell: UICollectionViewCell {
     
     
     func set(follower: Follower) {
+        avatarImageView.downloadImage(fromURL: follower.avatarUrl)
         usernameLabel.text = follower.login
-        NetworkManager.shared.downladImage(from: follower.avatarUrl) { [weak self] image in
-            guard let self = self else { return }
-            DispatchQueue.main.async { self.avatarImageView.image = image }
-        }
     }
     
     
     private func configureAvatar() {
         addSubviews(avatarImageView, usernameLabel)
-        
         let padding: CGFloat = 8
         
-        NSLayoutConstraint.activate(
-            [
+        NSLayoutConstraint.activate([
                 avatarImageView.topAnchor.constraint(
                     equalTo: topAnchor,
                     constant: padding
@@ -70,8 +66,6 @@ class FollowerCell: UICollectionViewCell {
                     constant: -padding
                 ),
                 usernameLabel.heightAnchor.constraint(equalToConstant: 20)
-                
-            ]
-        )
+            ])
     }
 }

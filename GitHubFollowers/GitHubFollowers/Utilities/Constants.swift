@@ -15,6 +15,7 @@ enum SFSymbols {
     static let followers = UIImage(systemName:"person.2")
 }
 
+
 enum Images {
     static let emptyStateLogo = UIImage(named: "GHLogoEmptyState")
     static let placeholder = UIImage(named: "GFPlaceholder")

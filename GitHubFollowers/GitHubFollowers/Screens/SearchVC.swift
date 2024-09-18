@@ -9,18 +9,15 @@ import UIKit
 
 class SearchVC: UIViewController {
     
-    // MARK: - Properties
     let logoImageView = UIImageView()
     let usernameTextField = GFTextField()
-    let callToActionButton = GFButton(backgroundColor: .systemGreen, title: "Get Followers")
-    var logoImageViewTopConstraint: NSLayoutConstraint!
+    let callToActionButton = GFButton(color: .systemGreen, title: "Get Followers",systemImageName: "person.3")
     
     var isUsernameEntered: Bool {
         return !usernameTextField.text!.isEmpty
     }
-
     
-    // MARK: - lifeCycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
@@ -31,7 +28,7 @@ class SearchVC: UIViewController {
         createDismissKeyboardTapGesture()
         configureKeyboardHiding()
     }
-
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -40,17 +37,25 @@ class SearchVC: UIViewController {
     }
     
     
-    // MARK: - createDismissKeyboard
     func createDismissKeyboardTapGesture() {
         let tap = UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing))
         view.addGestureRecognizer(tap)
     }
     
     
-    // MARK: - keyboardHiding
     private func configureKeyboardHiding() {
-         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillHide),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillShow),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
     }
     
     
@@ -58,20 +63,20 @@ class SearchVC: UIViewController {
         guard let userInfo = sender.userInfo,
               let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
               let currentTextField = UIResponder.currentFirst() as? UITextField else { return }
-
+        
         let keyboardFrameInView = view.convert(keyboardFrame.cgRectValue, from: view.window)
         let keyboardTopY = keyboardFrameInView.origin.y
-
+        
         let convertedTextFieldFrame = view.convert(currentTextField.frame, from: currentTextField.superview)
         let textFieldBottomY = convertedTextFieldFrame.origin.y + convertedTextFieldFrame.size.height
-
+        
         if textFieldBottomY > keyboardTopY {
-               let offset = textFieldBottomY - keyboardTopY + 20
-               view.frame.origin.y = -offset
+            let offset = textFieldBottomY - keyboardTopY + 20
+            view.frame.origin.y = -offset
             
-        let keyboardHeight = CGFloat(keyboardFrame.cgRectValue.height)
-        UIView.animate(withDuration: 0.3) {
-            self.callToActionButton.transform = CGAffineTransform(translationX: 0, y: keyboardHeight - 50)
+            let keyboardHeight = CGFloat(keyboardFrame.cgRectValue.height)
+            UIView.animate(withDuration: 0.3) {
+                self.callToActionButton.transform = CGAffineTransform(translationX: 0, y: keyboardHeight - 50)
             }
         }
     }
@@ -81,18 +86,20 @@ class SearchVC: UIViewController {
         view.frame.origin.y = 0
         
         UIView.animate(withDuration: 0.3) {
-                self.callToActionButton.transform = .identity
+            self.callToActionButton.transform = .identity
         }
     }
     
     
-    
-    // MARK: - pushFollowersVC
     @objc func pushFollowersVC() {
         view.endEditing(true)
         
         guard isUsernameEntered else {
-            presentGFAlertOnMainThred(title: "Empty Username", message: "Please enter a username. We need to know who to look for 😉", buttonTitle: "Ok")
+            presentGFAlert(
+                title: "Empty Username",
+                message: "Please enter a username. We need to know who to look for 😉",
+                buttonTitle: "Ok"
+            )
             return
         }
         
@@ -103,8 +110,7 @@ class SearchVC: UIViewController {
         navigationController?.pushViewController(followerListVC, animated: true)
     }
     
-   
-    // MARK: - configureImageLogo
+    
     func configureLogoImageView() {
         logoImageView.translatesAutoresizingMaskIntoConstraints = false
         logoImageView.image = Images.ghLogo
@@ -120,7 +126,6 @@ class SearchVC: UIViewController {
     }
     
     
-    // MARK: - configureTextField
     func configureTextField() {
         usernameTextField.delegate = self
         
@@ -144,33 +149,28 @@ class SearchVC: UIViewController {
     }
     
     
-    // MARK: - confirureCallToActionButton
     func confirureCallToActionButton() {
         callToActionButton.addTarget(self, action: #selector(pushFollowersVC), for: .touchUpInside)
         
-        NSLayoutConstraint.activate(
-            [
-                callToActionButton.bottomAnchor.constraint(
-                    equalTo: view.safeAreaLayoutGuide.bottomAnchor,
-                    constant: -50
-                ),
-                callToActionButton.leadingAnchor.constraint(
-                    equalTo: view.leadingAnchor,
-                    constant: 50
-                ),
-                callToActionButton.trailingAnchor.constraint(
-                    equalTo: view.trailingAnchor,
-                    constant: -50
-                ),
-                callToActionButton.heightAnchor.constraint(equalToConstant: 50)
-            ]
-        )
+        NSLayoutConstraint.activate([
+            callToActionButton.bottomAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.bottomAnchor,
+                constant: -50
+            ),
+            callToActionButton.leadingAnchor.constraint(
+                equalTo: view.leadingAnchor,
+                constant: 50
+            ),
+            callToActionButton.trailingAnchor.constraint(
+                equalTo: view.trailingAnchor,
+                constant: -50
+            ),
+            callToActionButton.heightAnchor.constraint(equalToConstant: 50)
+        ])
     }
-    
 }
 
 
-// MARK: - Extensions
 extension SearchVC: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         pushFollowersVC()
@@ -180,17 +180,17 @@ extension SearchVC: UITextFieldDelegate {
 
 
 extension UIResponder {
-
+    
     private struct Static {
         static weak var responder: UIResponder?
     }
-
+    
     static func currentFirst() -> UIResponder? {
         Static.responder = nil
         UIApplication.shared.sendAction(#selector(UIResponder.trap), to: nil, from: nil, for: nil)
         return Static.responder
     }
-
+    
     @objc private func trap() {
         Static.responder = self
     }

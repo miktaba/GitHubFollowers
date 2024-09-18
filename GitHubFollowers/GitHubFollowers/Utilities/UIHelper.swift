@@ -23,8 +23,8 @@ enum UIHelper {
             bottom: padding,
             right: padding
         )
-        flowLayout.itemSize = CGSize(width: itemWidth, height: itemWidth + 40)
         
+        flowLayout.itemSize = CGSize(width: itemWidth, height: itemWidth + 40)
         
         return flowLayout
     }

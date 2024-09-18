@@ -118,8 +118,8 @@
 				849B4E662C9327A900938B1F /* ViewControllers */,
 				849B4E652C93279000938B1F /* ImageViews */,
 				849B4E642C93278000938B1F /* TextFields */,
-				849B4E632C93276500938B1F /* Views */,
 				849B4E622C93275B00938B1F /* Buttons */,
+				849B4E632C93276500938B1F /* Views */,
 				849B4E5B2C8EEECF00938B1F /* Cells */,
 			);
 			path = "Custom Views";

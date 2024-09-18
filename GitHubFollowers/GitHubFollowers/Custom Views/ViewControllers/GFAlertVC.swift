@@ -9,12 +9,10 @@ import UIKit
 
 class GFAlertVC: UIViewController {
     
-    
-    // MARK: - Properties
     let containerView = GFAlertContainerView()
     let titleLabel = GFTitleLable(textAligment: .center, fontSize: 20)
     let messageLabel = GFBodyLable(textAligment: .center)
-    let actionButton = GFButton(backgroundColor: .systemPink, title: "Ok")
+    let actionButton = GFButton(color: .systemPink, title: "Ok",systemImageName: "checkmark.circle")
     
     var alertTitle: String?
     var message: String?
@@ -23,7 +21,6 @@ class GFAlertVC: UIViewController {
     let padding: CGFloat = 20
     
     
-    // MARK: - Init
     init(title: String, message: String, buttonTitle: String) {
         super.init(nibName: nil, bundle: nil)
         self.alertTitle = title
@@ -31,16 +28,17 @@ class GFAlertVC: UIViewController {
         self.buttonTitle = buttonTitle
     }
     
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     
-    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.black.withAlphaComponent(0.75)
         view.addSubviews(containerView, titleLabel, actionButton, messageLabel)
+        
         configureContainerView()
         configureTitleLabel()
         configureActionButton()
@@ -48,7 +46,6 @@ class GFAlertVC: UIViewController {
     }
     
     
-    // MARK: - configureContainerView
     func configureContainerView() {
         NSLayoutConstraint.activate([
             containerView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
@@ -59,7 +56,6 @@ class GFAlertVC: UIViewController {
     }
     
     
-    // MARK: - configureTitleLable
     func configureTitleLabel() {
         titleLabel.text = alertTitle ?? "Something went wrong"
         
@@ -72,7 +68,6 @@ class GFAlertVC: UIViewController {
     }
     
     
-    // MARK: - configureActionButton
     func configureActionButton() {
         actionButton.setTitle(buttonTitle ?? "Ok", for: .normal)
         actionButton.addTarget(self, action: #selector(dismissVC), for: .touchUpInside)
@@ -86,7 +81,6 @@ class GFAlertVC: UIViewController {
     }
     
     
-    // MARK: - configureMessageLable
     func configureMessageLable() {
         messageLabel.text = message ?? "Unable to complete request"
         messageLabel.numberOfLines = 4
@@ -98,10 +92,9 @@ class GFAlertVC: UIViewController {
             messageLabel.bottomAnchor.constraint(equalTo: actionButton.topAnchor, constant: -12)
         ])
     }
-
+    
     
     @objc func dismissVC() {
         dismiss(animated: true)
     }
- 
 }

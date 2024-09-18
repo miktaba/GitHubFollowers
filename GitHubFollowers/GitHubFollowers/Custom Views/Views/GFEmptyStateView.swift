@@ -13,14 +13,17 @@ class GFEmptyStateView: UIView {
     let logoImageView = UIImageView()
     let screenWidth = UIScreen.main.bounds.width
     
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         configure()
     }
     
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     
     convenience init(message: String) {
         self.init(frame: .zero)
@@ -53,10 +56,9 @@ class GFEmptyStateView: UIView {
         let isSmallScreen = screenWidth <= 380
         
         let messageLableCenterYConstant: CGFloat = isSmallScreen ? -150 : -200
-        let messageCenterYConstraint = messageLable.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: messageLableCenterYConstant)
-        messageCenterYConstraint.isActive = true
         
         NSLayoutConstraint.activate([
+            messageLable.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: messageLableCenterYConstant),
             messageLable.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 40),
             messageLable.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -40),
             messageLable.heightAnchor.constraint(equalToConstant: 200)
@@ -72,15 +74,13 @@ class GFEmptyStateView: UIView {
         let imageSize = calculateImageSize(for: screenWidth)
         
         let isSmallScreen = screenWidth <= 380
-        let logoTrailingConstant: CGFloat = isSmallScreen ? 120 : 160
-        let logoImageTrailingConstraint = logoImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: logoTrailingConstant)
-        logoImageTrailingConstraint.isActive = true
         
+        let logoTrailingConstant: CGFloat = isSmallScreen ? 120 : 160
         let logoBottomConstant: CGFloat = isSmallScreen ? 0 : -20
-        let logoImageViewBottomConstraint = logoImageView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: logoBottomConstant)
-        logoImageViewBottomConstraint.isActive = true
         
         NSLayoutConstraint.activate([
+            logoImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: logoTrailingConstant),
+            logoImageView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: logoBottomConstant),
             logoImageView.widthAnchor.constraint(equalToConstant: imageSize.width),
             logoImageView.heightAnchor.constraint(equalToConstant: imageSize.height)
         ])

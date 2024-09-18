@@ -11,21 +11,23 @@ enum ItemInfoType {
     case repos, gists, followers, following
 }
 
-
 class GFItemInfoView: UILabel {
     
     let symbolImageView = UIImageView()
     let titleLabel = GFTitleLable(textAligment: .left, fontSize: 14)
     let countLabel = GFTitleLable(textAligment: .center, fontSize: 14)
     
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         configure()
     }
     
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     
     private func configure() {
         addSubviews(symbolImageView, titleLabel, countLabel)
@@ -49,9 +51,9 @@ class GFItemInfoView: UILabel {
             countLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             countLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             countLabel.heightAnchor.constraint(equalToConstant: 18)
-            
         ])
     }
+    
     
     func set(itemInfoType: ItemInfoType, withCount count: Int) {
         switch itemInfoType {
@@ -67,7 +69,6 @@ class GFItemInfoView: UILabel {
         case .following:
             symbolImageView.image = SFSymbols.following
             titleLabel.text = "Following"
-        
         }
         
         countLabel.text = String(count)

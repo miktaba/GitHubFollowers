@@ -9,9 +9,13 @@ import Foundation
 
 extension Date {
     
+//    func covertToMonthYearFormat() -> String {
+//        let datetFormatter = DateFormatter()
+//        datetFormatter.dateFormat = "MMM yyyy"
+//        return datetFormatter.string(from: self)
+//    }
+    
     func covertToMonthYearFormat() -> String {
-        let datetFormatter = DateFormatter()
-        datetFormatter.dateFormat = "MMM yyyy"
-        return datetFormatter.string(from: self)
+        return formatted(.dateTime.month().year())
     }
 }

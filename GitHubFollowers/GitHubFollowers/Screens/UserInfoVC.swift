@@ -15,12 +15,11 @@ class UserInfoVC: GFDataLoadingVC {
     
     let scrollView = UIScrollView()
     let contentView = UIView()
-
+    
     let headerView = UIView()
     let itemViewOne = UIView()
     let itemViewTwo = UIView()
     let dateLable = GFBodyLable(textAligment: .center)
-    
     var itemViews: [UIView] = []
     
     var username: String!
@@ -53,20 +52,20 @@ class UserInfoVC: GFDataLoadingVC {
             contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
             contentView.heightAnchor.constraint(equalToConstant: 600)
         ])
-            
     }
     
     
     func getUserInfo() {
-        NetworkManager.shared.getUsername(for: username) { [weak self] result in
-            guard let self = self else { return }
-            
-            switch result {
-            case.success(let user):
-                DispatchQueue.main.async { self.configureUIElements(with: user) }
-                
-            case.failure(let error):
-                self.presentGFAlertOnMainThred(title: "Something went wrong", message: error.rawValue, buttonTitle: "Ok")
+        Task {
+            do {
+                let user = try await NetworkManager.shared.getUserInfo(for: username)
+                configureUIElements(with: user)
+            } catch {
+                if let gfError = error as? GFError {
+                    presentGFAlert(title: "Something went wrong", message: gfError.rawValue, buttonTitle: "Ok")
+                } else {
+                    presentDefaultAlert()
+                }
             }
         }
     }
@@ -97,7 +96,6 @@ class UserInfoVC: GFDataLoadingVC {
                 itemView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding)
             ])
         }
-
         
         NSLayoutConstraint.activate([
             headerView.topAnchor.constraint(equalTo: contentView.topAnchor),
@@ -133,7 +131,7 @@ class UserInfoVC: GFDataLoadingVC {
 extension UserInfoVC: GFRepoItemVCDelegate {
     func didTapGitHubProfile(for user: User) {
         guard let url = URL(string: user.htmlUrl) else {
-            presentGFAlertOnMainThred(
+            presentGFAlert(
                 title: "Invalid URL",
                 message: "The URL attached to this user is invalid.",
                 buttonTitle: "OK"
@@ -149,7 +147,7 @@ extension UserInfoVC: GFRepoItemVCDelegate {
 extension UserInfoVC: GFFollowerItemVCDelegate {
     func didTapGetFollowers(for user: User) {
         guard user.followers != 0 else {
-            presentGFAlertOnMainThred(title: "No followers", message: "This user has no followers.", buttonTitle: "So sad")
+            presentGFAlert(title: "No followers", message: "This user has no followers.", buttonTitle: "So sad")
             return
         }
         
