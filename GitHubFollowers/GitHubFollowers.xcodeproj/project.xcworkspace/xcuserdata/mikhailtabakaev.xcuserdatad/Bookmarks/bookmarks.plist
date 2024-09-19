@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>top-level-items</key>
+	<array>
+		<dict>
+			<key>destination</key>
+			<dict>
+				<key>location-parameters</key>
+				<dict>
+					<key>EndingColumnNumber</key>
+					<string>12</string>
+					<key>EndingLineNumber</key>
+					<string>40</string>
+					<key>StartingColumnNumber</key>
+					<string>8</string>
+					<key>StartingLineNumber</key>
+					<string>40</string>
+					<key>Timestamp</key>
+					<string>748368478.868897</string>
+				</dict>
+				<key>rebasable-url</key>
+				<dict>
+					<key>base</key>
+					<string>workspace</string>
+					<key>payload</key>
+					<dict>
+						<key>relative-path</key>
+						<string>GitHubFollowers/Custom Views/TextFields/GFTextField.swift</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>text-context</key>
+			<dict>
+				<key>focused</key>
+				<string>text</string>
+				<key>leading</key>
+				<string>        
+        // FIXME: - Don't forget to delete
+        </string>
+				<key>trailing</key>
+				<string> = "Apple"
+        
+    }
+</string>
+			</dict>
+			<key>title</key>
+			<string>Don't forget to delete this line</string>
+			<key>type</key>
+			<string>bookmark</string>
+		</dict>
+	</array>
+</dict>
+</plist>

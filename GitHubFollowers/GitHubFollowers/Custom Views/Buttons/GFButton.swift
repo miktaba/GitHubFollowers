@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftUI
 
 class GFButton: UIButton {
     
@@ -43,4 +44,8 @@ class GFButton: UIButton {
         configuration?.imagePlacement = .leading
     }
 }
+
+//#Preview {
+//    GFButton(color: .red, title: "Yeah", systemImageName: "skateboard.fill")
+//}
 

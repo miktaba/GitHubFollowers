@@ -24,6 +24,19 @@ class FavoritesListVC: GFDataLoadingVC {
         getFavorites()
     }
     
+    // default empty state configuration IOS 17 *
+//    override func updateContentUnavailableConfiguration(using state: UIContentUnavailableConfigurationState) {
+//        if favorites.isEmpty {
+//            var config = UIContentUnavailableConfiguration.empty()
+//            config.image = .init(systemName: "star")
+//            config.text = "No favorites yet"
+//            config.secondaryText = "Add some to your favorites"
+//            contentUnavailableConfiguration = config
+//        } else {
+//            contentUnavailableConfiguration = nil
+//        }
+//    }
+    
     
     func configureViewController() {
         view.backgroundColor = .systemBackground
@@ -64,9 +77,11 @@ class FavoritesListVC: GFDataLoadingVC {
     
     func updateUI(with favorites: [Follower]) {
         if favorites.isEmpty {
-            showEmptyStateView(with: "No favorites?\nAdd one on the follower screen", in: self.view)
+            self.showEmptyStateView(with: "No favorites yet?\n Add one on the follower screen.", in: self.view)
         } else {
             self.favorites = favorites
+            //default empty state configuration
+            // setNeedsUpdateContentUnavailableConfiguration()
             DispatchQueue.main.async {
                 self.tableView.reloadData()
                 self.view.bringSubviewToFront(self.tableView)
@@ -76,7 +91,7 @@ class FavoritesListVC: GFDataLoadingVC {
 }
 
 
-extension FavoritesListVC: UITableViewDelegate, UITableViewDataSource {
+extension FavoritesListVC: UITableViewDelegate, UITableViewDataSource { 
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return favorites.count
@@ -109,8 +124,10 @@ extension FavoritesListVC: UITableViewDelegate, UITableViewDataSource {
                 favorites.remove(at: indexPath.row)
                 tableView.deleteRows(at: [indexPath], with: .left)
                 if self.favorites.isEmpty {
-                    self.showEmptyStateView(with: "No favorites?\nAdd one on the follower screen", in: self.view)
+                    self.showEmptyStateView(with: "No favorites yet?\n Add one on the follower screen.", in: self.view)
                 }
+                //default empty state configuration
+                //setNeedsUpdateContentUnavailableConfiguration()
                 return
             }
             
@@ -120,3 +137,4 @@ extension FavoritesListVC: UITableViewDelegate, UITableViewDataSource {
         }
     }
 }
+

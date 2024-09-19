@@ -18,7 +18,7 @@ struct FollowerView: View {
                     .resizable()
                     .aspectRatio(contentMode: .fit)
             } placeholder: {
-                Image("GFPlaceholder")
+                Image(.gfPlaceholder)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
             }
@@ -29,7 +29,6 @@ struct FollowerView: View {
                 .lineLimit(1)
                 .minimumScaleFactor(0.6)
         }
-
     }
 }
 

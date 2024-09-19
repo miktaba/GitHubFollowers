@@ -48,15 +48,15 @@ class FollowerListVC: GFDataLoadingVC {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: true)
-        
-        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonTapped))
-        navigationItem.rightBarButtonItem = addButton
     }
     
     
     func configureViewController() {
         view.backgroundColor = .systemBackground
         navigationController?.navigationBar.prefersLargeTitles = true
+        
+        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonTapped))
+        navigationItem.rightBarButtonItem = addButton
     }
     
     
@@ -86,6 +86,8 @@ class FollowerListVC: GFDataLoadingVC {
             // with a specific error
             do {
                 let followers = try await NetworkManager.shared.getFollowers(for: username, page: page)
+                // check setNeedsUpdateContentUnavailableConfiguration()
+                //let followers: [Follower] = []
                 updateUI(with: followers)
                 dismissLoadingView()
                 isLoadingMoreFollowers = false
@@ -106,9 +108,11 @@ class FollowerListVC: GFDataLoadingVC {
     func updateUI(with followers: [Follower]) {
         if followers.count < 100 { self.hasMoreFollowers = false }
         self.followers.append(contentsOf: followers)
+        //default empty state configuration
+        //setNeedsUpdateContentUnavailableConfiguration()
         
         if self.followers.isEmpty {
-            let message = "This user doesn't have any followers. Go follow them ☺️."
+            let message = "This user doesn't have any followers. Go follow them."
             DispatchQueue.main.async {
                 self.showEmptyStateView(with: message, in: self.view)
                 return

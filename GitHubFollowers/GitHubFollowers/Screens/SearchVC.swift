@@ -119,8 +119,8 @@ class SearchVC: UIViewController {
             [
                 logoImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 80),
                 logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                logoImageView.heightAnchor.constraint(equalToConstant: 300),
-                logoImageView.widthAnchor.constraint(equalToConstant: 300)
+                logoImageView.heightAnchor.constraint(equalToConstant: 250),
+                logoImageView.widthAnchor.constraint(equalToConstant: 250)
             ]
         )
     }
@@ -133,7 +133,7 @@ class SearchVC: UIViewController {
             [
                 usernameTextField.topAnchor.constraint(
                     equalTo: logoImageView.bottomAnchor,
-                    constant: 30
+                    constant: 50
                 ),
                 usernameTextField.leadingAnchor.constraint(
                     equalTo: view.leadingAnchor,
@@ -195,3 +195,7 @@ extension UIResponder {
         Static.responder = self
     }
 }
+
+//#Preview {
+//    SearchVC()
+//}
